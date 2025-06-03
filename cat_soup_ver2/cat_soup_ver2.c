@@ -26,6 +26,7 @@ int main() {
 	int soup = 0; //수프의 개수
 	int CP = 0; // CP 포인트
 	int feel = 3; // 쫀떡이 기분
+	int feel_tmp = 0; // 쫀떡이 기분 임시저장
 	int relationship = 2;// 친밀도
 	int cat = 1;// 고양이
 	int dice;//주사위
@@ -40,7 +41,18 @@ int main() {
 		printf("현재까지 만든 수프: %d개\n", soup);
 		printf("CP: %d포인트\n", CP);
 		printf("쫀떡이 기분(0~3): %d\n", feel);
-		printf("  골골송을 부릅니다.\n");
+		if (feel == 0) {
+			printf("기분이 매우 나쁩니다.\n");
+		}
+		else if (feel == 1) {
+			printf("심심해합니다.\n");
+		}
+		else if (feel == 2) {
+			printf("식빵을 굽습니다.\n");
+		}
+		else if (feel == 3) {
+			printf("  골골송을 부릅니다.\n");
+		}
 		printf("집사와의 관계(0~4): %d\n", relationship);
 
 
@@ -62,23 +74,22 @@ int main() {
 
 		printf("================================================\n");
 
-		printf("쫀떡 이동: 집사와 친밀할수록 냄비 쪽으로 갈 확률이 높아집니다.\n");
-		printf("주사위 눈이 %d 이상이면 냄비 쪽으로 이동합니다 \n", 6 - relationship);
-		printf("주사위를 굴립니다. 또르륵...\n");
+		printf("6-%d: 주사위 눈이 %d 이하이면 그냥 기분이 나빠집니다. \n", relationship, 6 - relationship);
+		printf("주사위를 굴립니다. 또르르...\n");
 
 		dice = rand() % 6 + 1;
 		printf("%d(이)가 나왔습니다.\n", dice);
 
 		foot = cat;
 
-		if (dice >= 6 - relationship) {
-			if (cat < BWL_PO)
-				cat++;
-			printf("냄비 쪽으로 움직입니다.\n");
+		if (dice <= 6 - relationship) {
+			feel_tmp = feel;
+			if (feel > 0) {
+				feel--;
+			}
+			printf("쫀떡이 기분이 나빠집니다: %d->%d\n", feel_tmp, feel);
 		}
-		else if (cat != HME_POS) {
-			cat--;
-		}
+
 
 		if (cat == BWL_PO) {
 			soup++;
@@ -97,7 +108,7 @@ int main() {
 			printf("현재까지 만든 수프: %d\n", soup);
 		}
 		if (cat == HME_POS) {
-			printf("쫀떡은 자신의 집에서 편안함을 느낍니다.\n");
+
 		}
 
 		for (int i = 0; i < ROOM_WIDTH; i++) {
