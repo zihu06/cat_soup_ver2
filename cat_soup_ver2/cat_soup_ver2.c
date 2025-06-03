@@ -88,13 +88,36 @@ int main() {
 				feel--;
 			}
 			printf("쫀떡이 기분이 나빠집니다: %d->%d\n", feel_tmp, feel);
+
 		}
+
+
+		if (feel == 0) {
+			printf("기분이 매우 나쁜 지후은(는) 집으로 향합니다.\n");
+			if (cat > 1) {
+				cat--;
+			}
+		}
+		else if (feel == 1) {
+			printf("지후는 심심해서 스크래쳐 쪽으로 이동합니다.\n");
+		}
+		else if (feel == 2) {
+			printf("지후는 기분좋게 식빵을 굽고 있습니다.\n");
+		}
+		else if (feel == 3) {
+			printf("지후는 골골송을 부르며 수프를 만들러 갑니다.\n");
+			if (cat < BWL_PO) {
+				cat++;
+			}
+		}
+
 
 
 		if (cat == BWL_PO) {
 			soup++;
 			dice = rand() % 3 + 1;
 			switch (dice) {
+		
 			case 1:
 				printf("쫀떡이 감자수프를 만들었습니다.\n");
 				break;
