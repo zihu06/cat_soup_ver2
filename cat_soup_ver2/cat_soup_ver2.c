@@ -31,12 +31,15 @@ int main() {
 	int cat = 1;// 고양이
 	int dice;//주사위
 	int foot; // 발자국
-	int choose = 5;
+	int choose ;
+	int turn = 0;
+	int s = 0; // 스크래처 위치
+	
 
 	srand((unsigned int)time(NULL));
 
 	while (1) {
-
+		turn++;
 		printf("==================== 현재상태===================\n");
 		printf("현재까지 만든 수프: %d개\n", soup);
 		printf("CP: %d포인트\n", CP);
@@ -73,6 +76,28 @@ int main() {
 		}
 
 		printf("================================================\n");
+		
+		if (quest == 3) {
+			printf("돌발 퀘스트 발생!\n");
+			printf("12 X 12 = ?"\n);
+			printf("'?'에 들어올숫자를 적으시오.");
+			scnaf("%d", &choose);
+			
+			if (choose == 144) {
+				printf("정답입니다.\n");
+				printf("CP가 5올라갑니다.\n");
+				cp += 5;
+			}
+			else
+				printf("틀렸습니다.\n정답은 144입니다.\n");
+
+		}
+
+
+
+
+
+
 
 		printf("6-%d: 주사위 눈이 %d 이하이면 그냥 기분이 나빠집니다. \n", relationship, 6 - relationship);
 		printf("주사위를 굴립니다. 또르르...\n");
@@ -109,123 +134,122 @@ int main() {
 			if (cat < BWL_PO) {
 				cat++;
 			}
-		}
 
 
 
-		if (cat == BWL_PO) {
-			soup++;
-			dice = rand() % 3 + 1;
-			switch (dice) {
-		
-			case 1:
-				printf("쫀떡이 감자수프를 만들었습니다.\n");
-				break;
-			case 2:
-				printf("쫀떡이 양송이수프를 만들었습니다.\n");
-				break;
-			case 3:
-				printf("쫀떡이 브로콜리수프를 만들었습니다.\n");
-				break;
+			if (cat == BWL_PO) {
+				soup++;
+				dice = rand() % 3 + 1;
+				switch (dice) {
+
+				case 1:
+					printf("쫀떡이 감자수프를 만들었습니다.\n");
+					break;
+				case 2:
+					printf("쫀떡이 양송이수프를 만들었습니다.\n");
+					break;
+				case 3:
+					printf("쫀떡이 브로콜리수프를 만들었습니다.\n");
+					break;
+				}
+				printf("현재까지 만든 수프: %d\n", soup);
 			}
-			printf("현재까지 만든 수프: %d\n", soup);
-		}
-		if (cat == HME_POS) {
+			if (cat == HME_POS) {
 
-		}
+			}
 
-		for (int i = 0; i < ROOM_WIDTH; i++) {
-			printf("#");
-		}
-
-		printf("\n");
-
-		for (int i = 0; i < ROOM_WIDTH; i++) {
-			if (i == 1)
-				printf("H");
-			else if (i == 0)
+			for (int i = 0; i < ROOM_WIDTH; i++) {
 				printf("#");
-			else if (ROOM_WIDTH - 1 == i)
+			}
+
+			printf("\n");
+
+			for (int i = 0; i < ROOM_WIDTH; i++) {
+				if (i == 1)
+					printf("H");
+				else if (i == 0)
+					printf("#");
+				else if (ROOM_WIDTH - 1 == i)
+					printf("#");
+				else if (i == BWL_PO)
+					printf("B");
+				else
+					printf(" ");
+			}
+
+			printf("\n");
+
+			for (int i = 0; i < ROOM_WIDTH; i++) {
+				if (i == 0)
+					printf("#");
+				else if (ROOM_WIDTH - 1 == i)
+					printf("#");
+				else if (i == cat)
+					printf("C");
+				else if (i == foot)
+					printf(".");
+				else
+					printf(" ");
+			}
+
+			printf("\n");
+
+			for (int i = 0; i < ROOM_WIDTH; i++) {
 				printf("#");
-			else if (i == BWL_PO)
-				printf("B");
-			else
-				printf(" ");
-		}
+			}
 
-		printf("\n");
-
-		for (int i = 0; i < ROOM_WIDTH; i++) {
-			if (i == 0)
-				printf("#");
-			else if (ROOM_WIDTH - 1 == i)
-				printf("#");
-			else if (i == cat)
-				printf("C");
-			else if (i == foot)
-				printf(".");
-			else
-				printf(" ");
-		}
-
-		printf("\n");
-
-		for (int i = 0; i < ROOM_WIDTH; i++) {
-			printf("#");
-		}
-
-		printf("\n");
+			printf("\n");
 
 
 
-		Sleep(500); //0.5초 대기
+			Sleep(500); //0.5초 대기
 
-		printf("어떤 상호작용을 하시겠습니까?    0. 아무것도 하지 않음    1. 긁어주기\n>> ");
-		scanf_s("%d", &choose);
-
-		while (choose != 0 && choose != 1) {
-			printf(">> ");
+			printf("어떤 상호작용을 하시겠습니까?    0. 아무것도 하지 않음    1. 긁어주기\n>> ");
 			scanf_s("%d", &choose);
+
+			while (choose != 0 && choose != 1) {
+				printf(">> ");
+				scanf_s("%d", &choose);
+			}
+
+			switch (choose) {
+			case 0:
+				printf("아무것도 하지 않음\n");
+				printf("4/6의 확률로 친밀도가 떨어집니다.\n");
+				printf("주사위를 돌립니다. 또르륵...\n");
+				dice = rand() & 6 + 1;
+				printf("%d가 나왔습니다.\n", dice);
+				if (dice <= 4) {
+					printf("친밀도가 떨어집니다.\n");
+					if (relationship > 0) {
+						relationship--;
+					}
+				}
+				else {
+					printf("다행이도 친밀도가 떨어지지 않았습니다.\n");
+				}
+				break;
+			case 1:
+				printf("쫀떡의 턱을 긁어주었습니다.\n");
+				printf("2/6의 확률로 친밀도가 높아집니다.\n");
+				printf("주사위를 돌립니다. 또르륵...\n");
+				dice = rand() % 6 + 1;
+				printf("%d가 나왔습니다.\n", dice);
+				if (dice >= 5) {
+					printf("친밀도가 높아집니다\n");
+					if (relationship <= 3) {
+						relationship++;
+					}
+				}
+				else {
+					printf("친밀도는 그대로입니다.\n");
+				}
+				break;
+			}
+			printf("현재 친밀도 : %d\n", relationship);
+			Sleep(2500);
+			system("cls");
 		}
 
-		switch (choose) {
-		case 0:
-			printf("아무것도 하지 않음\n");
-			printf("4/6의 확률로 친밀도가 떨어집니다.\n");
-			printf("주사위를 돌립니다. 또르륵...\n");
-			dice = rand() & 6 + 1;
-			printf("%d가 나왔습니다.\n", dice);
-			if (dice <= 4) {
-				printf("친밀도가 떨어집니다.\n");
-				if (relationship > 0) {
-					relationship--;
-				}
-			}
-			else {
-				printf("다행이도 친밀도가 떨어지지 않았습니다.\n");
-			}
-			break;
-		case 1:
-			printf("쫀떡의 턱을 긁어주었습니다.\n");
-			printf("2/6의 확률로 친밀도가 높아집니다.\n");
-			printf("주사위를 돌립니다. 또르륵...\n");
-			dice = rand() % 6 + 1;
-			printf("%d가 나왔습니다.\n", dice);
-			if (dice >= 5) {
-				printf("친밀도가 높아집니다\n");
-				if (relationship <= 3) {
-					relationship++;
-				}
-			}
-			else {
-				printf("친밀도는 그대로입니다.\n");
-			}
-			break;
-		}
-		printf("현재 친밀도 : %d\n", relationship);
-		Sleep(2500);
-		system("cls");
+		return 0;
 	}
-
-	return 0;
-}
