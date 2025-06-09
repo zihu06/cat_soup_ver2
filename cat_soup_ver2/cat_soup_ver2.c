@@ -24,7 +24,7 @@ int main() {
 	system("cls");
 
 	int soup = 0; //수프의 개수
-	int CP = 0; // CP 포인트
+	int cp = 0; // CP 포인트
 	int feel = 3; // 쫀떡이 기분
 	int feel_tmp = 0; // 쫀떡이 기분 임시저장
 	int relationship = 2;// 친밀도
@@ -34,6 +34,8 @@ int main() {
 	int choose ;
 	int turn = 0;
 	int s = 0; // 스크래처 위치
+	int tower = 0; // 타워 위치
+	int up, down; // 가까운 거리 판별하는 변수
 	
 
 	srand((unsigned int)time(NULL));
@@ -42,7 +44,7 @@ int main() {
 		turn++;
 		printf("==================== 현재상태===================\n");
 		printf("현재까지 만든 수프: %d개\n", soup);
-		printf("CP: %d포인트\n", CP);
+		printf("CP: %d포인트\n", cp);
 		printf("쫀떡이 기분(0~3): %d\n", feel);
 		if (feel == 0) {
 			printf("기분이 매우 나쁩니다.\n");
@@ -77,11 +79,11 @@ int main() {
 
 		printf("================================================\n");
 		
-		if (quest == 3) {
+		if (turn== 3) {
 			printf("돌발 퀘스트 발생!\n");
-			printf("12 X 12 = ?"\n);
+			printf("12 X 12 = ?\n");
 			printf("'?'에 들어올숫자를 적으시오.");
-			scnaf("%d", &choose);
+			scanf_s("%d", &choose);
 			
 			if (choose == 144) {
 				printf("정답입니다.\n");
@@ -124,7 +126,68 @@ int main() {
 			}
 		}
 		else if (feel == 1) {
-			printf("지후는 심심해서 스크래쳐 쪽으로 이동합니다.\n");
+			if (s != 0 && tower != 0) {
+				if (cat != s && cat != tower) {
+					if (cat - s > 0 && cat - tower > 0)
+						cat--;
+					else if (cat - s < 0 && cat - tower < 0)
+						cat++;
+					else {
+						if (tower > s) {
+							up = tower;
+							down = s;
+							choose = 1;
+						}
+						else {
+							up = s;
+							down = tower;
+							choose = 0;
+						}
+
+						up = up - cat;
+						down = cat - down;
+
+						if (up < down) {
+							cat++;
+							if (choose == 1)
+								printf("지후은(는) 심심해서 타워쪽으로 이동합니다.\n");
+							else
+								printf("지후은(는) 심심해서 스크래처쪽으로 이동합니다.\n");
+						}
+						else if (down < up) {
+							cat--;
+							if (choose == 0)
+								printf("지후은(는) 심심해서 타워쪽으로 이동합니다.\n");
+							else
+								printf("지후은(는) 심심해서 스크래처쪽으로 이동합니다.\n");
+						}
+						else {
+							cat++;
+							printf("지후은(는) 심심해서 이동합니다.\n");
+						}
+					}
+				}
+
+			}
+			else if (tower != 0) {
+				if (cat > tower)
+					cat--;
+				else if (cat < tower)
+					cat++;
+				printf("지후은(는) 심심해서 타워쪽으로 이동합니다.\n");
+			}
+			else if (s != 0) {
+				if (cat > s)
+					cat--;
+				else if (cat < s)
+					cat++;
+				printf("지후은(는) 심심해서 스크래처쪽으로 이동합니다.\n");
+			}
+			else {
+				printf("놀거리가 없어서 기분이 매우 나빠집니다.\n");
+				if (feel > 0)
+					feel--;
+			}
 		}
 		else if (feel == 2) {
 			printf("지후는 기분좋게 식빵을 굽고 있습니다.\n");
@@ -134,8 +197,8 @@ int main() {
 			if (cat < BWL_PO) {
 				cat++;
 			}
-
-
+		}
+		
 
 			if (cat == BWL_PO) {
 				soup++;
@@ -143,13 +206,13 @@ int main() {
 				switch (dice) {
 
 				case 1:
-					printf("쫀떡이 감자수프를 만들었습니다.\n");
+					printf("지후가 감자수프를 만들었습니다.\n");
 					break;
 				case 2:
-					printf("쫀떡이 양송이수프를 만들었습니다.\n");
+					printf("지후가 양송이수프를 만들었습니다.\n");
 					break;
 				case 3:
-					printf("쫀떡이 브로콜리수프를 만들었습니다.\n");
+					printf("지후가 브로콜리수프를 만들었습니다.\n");
 					break;
 				}
 				printf("현재까지 만든 수프: %d\n", soup);
