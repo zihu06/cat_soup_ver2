@@ -18,10 +18,17 @@ int main() {
 	int foot; // 발자국
 	int choose = 5; // 선택지
 	int turn = 0; // 턴 수
-	int s = 0; // 스크래처 위치
-	int tower = 0; // 캣타워 위치
+	int S_POS = 0; // 스크래처 위치
+	int T_POS = 0; // 캣타워 위치
 	int up, down; // 거리 비교 변수
 	int answer = 0; // 돌발퀘스트 정답
+	int rat = 0;
+	int laser = 0;
+	int scratcher = 0;
+	int tower = 0;
+
+
+
 	srand((unsigned int)time(NULL));
 
 	printf("****야옹이와 수프****\n");
@@ -123,21 +130,21 @@ int main() {
 			cat--;
 			break;
 		case 1:
-			if (s != 0 && tower != 0) {
-				if (cat != s && cat != tower) {
-					if (cat - s > 0 && cat - tower > 0)
+			if (S_POS != 0 && T_POS != 0) {
+				if (cat != S_POS && cat != T_POS) {
+					if (cat - S_POS > 0 && cat - T_POS > 0)
 						cat--;
-					else if (cat - s < 0 && cat - tower < 0)
+					else if (cat - S_POS < 0 && cat - T_POS < 0)
 						cat++;
 					else {
-						if (tower > s) {
-							up = tower;
-							down = s;
+						if (T_POS > S_POS) {
+							up = T_POS;
+							down = S_POS;
 							choose = 1;
 						}
 						else {
-							up = s;
-							down = tower;
+							up = S_POS;
+							down = T_POS;
 							choose = 0;
 						}
 
@@ -166,17 +173,17 @@ int main() {
 				}
 
 			}
-			else if (tower != 0) {
-				if (cat > tower)
+			else if (T_POS != 0) {
+				if (cat > T_POS)
 					cat--;
-				else if (cat < tower)
+				else if (cat < T_POS)
 					cat++;
 				printf("지후은(는) 심심해서 타워쪽으로 이동합니다.\n");
 			}
-			else if (s != 0) {
-				if (cat > s)
+			else if (S_POS != 0) {
+				if (cat > S_POS)
 					cat--;
-				else if (cat < s)
+				else if (cat < S_POS)
 					cat++;
 				printf("지후은(는) 심심해서 스크래처쪽으로 이동합니다.\n");
 			}
@@ -214,7 +221,7 @@ int main() {
 			printf("현재까지 만든 수프: %d\n", soup);
 		}
 		
-		if (cat == s) {
+		if (cat == S_POS) {
 			printf("지후은(는) 스크래처를 긁고 놀았습니다.\n");
 			if (feel == 3)
 				printf("기분이 조금 좋아졌습니다: %d->%d\n", feel, feel);
@@ -223,7 +230,7 @@ int main() {
 				printf("기분이 조금 좋아졌습니다: %d->%d\n", feel - 1, feel);
 			}
 		}
-		else if (cat == tower) {
+		else if (cat == T_POS) {
 			printf("지후은(는) 캣타워를 뛰어다닙니다.\n");
 			if (feel > 1) {
 				printf("기분이 제법 좋아졌습니다: %d->3\n", feel);
@@ -251,9 +258,9 @@ int main() {
 					printf("#");
 				else if (i == BWL_PO)
 					printf("B");
-				else if (i == s)
+				else if (i == S_POS)
 					printf("S");
-				else if (i == tower)
+				else if (i == T_POS)
 					printf("T");
 				else
 					printf(" ");
@@ -342,10 +349,100 @@ int main() {
 			printf("지후의 기분과 친밀도에 따라서 CP가 %d포인트 증가합니다.\n", cp_increase);
 			printf("보유 CP: %d포인트\n\n", CP);
 
+			printf("상점에서 물건을 살 수 있습니다.\n");
+			printf("어떤 물건을 구매할까요?\n");
+			printf("1. 장난감 쥐: 1 CP"); if (rat == 1) { printf(" (품절)"); } printf("\n");
+			printf("2. 레이저 포인터: 2 CP"); if (laser == 1) { printf(" (품절)"); } printf("\n");
+			printf("3. 스크래처: 3 CP"); if (scratcher == 1) { printf(" (품절)"); } printf("\n");
+			printf("4. 캣타워: 4 CP"); if (tower == 1) { printf(" (품절)"); } printf("\n");
+			while (1) {
+				int buy;
+				printf(">>");
+				scanf_s("%d", &buy);
+				getchar();
+			
+
+			if (buy == 0) {
+				break;
+			}
+			else if (buy == 1) {
+				if (CP >= 1 && rat == 0) {
+					CP -= 1;
+					rat = 1;
+					printf("장난감 쥐를 구매했습니다.\n");
+					printf("보유 CP: %d포인트\n", CP);
+				}
+
+				else if (rat == 1) {
+					printf("장난감 쥐는 이미 구매했습니다.\n");
+				}
+				else {
+					printf("CP가 부족합니다.\n");
+				}
+			}
+			else if (buy == 2) {
+				if (CP >= 2 && laser == 0) {
+					CP -= 2;
+					laser = 1;
+					printf("레이저 포인터를 구매했습니다.\n");
+					printf("보유 CP: %d포인트\n", CP);
+				}
+				else if (laser == 1) {
+					printf("레이저 포인터는 이미 구매했습니다.\n");
+				}
+				else {
+					printf("CP가 부족합니다.\n");
+				}
+			}
+			else if (buy == 3) {
+				if (CP >= 3 && scratcher == 0) {
+					CP -= 3;
+					scratcher = 1;
+					S_POS = cat;
+					printf("스크래처를 구매했습니다.\n");
+					printf("보유 CP: %d포인트\n", CP);
+
+					while (1) {
+						S_POS = (rand() % (ROOM_WIDTH - 2)) + 1;
+						if (S_POS != HME_POS && S_POS != BWL_PO && S_POS != T_POS) {
+							break;
+						}
+					}
+				}
+				else if (scratcher == 1) {
+					printf("스크래처는 이미 구매했습니다.\n");
+				}
+				else {
+					printf("CP가 부족합니다.\n");
+				}
+			}
+			else if (buy == 4) {
+				if (CP >= 4 && tower == 0) {
+					CP -= 4;
+					tower = 1;
+					T_POS = cat;
+					printf("캣타워를 구매했습니다.\n");
+					printf("보유 CP: %d포인트\n", CP);
+
+					while (1) {
+						T_POS = (rand() % (ROOM_WIDTH - 2)) + 1;
+						if (T_POS != HME_POS && T_POS != BWL_PO && T_POS != S_POS) {
+							break;
+						}
+					}
+				}
+				else if (tower == 1) {
+					printf("캣타워는 이미 구매했습니다.\n");
+				}
+				else {
+					printf("CP가 부족합니다.\n");
+				}
+			}
+			else {
+				printf("잘못된 입력입니다. 다시 입력해주세요.\n");
+			}
 
 
-
-			printf("현재 친밀도 : %d\n", relationship);
 
 
 
