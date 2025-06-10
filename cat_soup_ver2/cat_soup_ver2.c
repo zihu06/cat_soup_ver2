@@ -34,7 +34,7 @@ int main() {
 	printf("      \\) ()-())\n");
 	printf("야옹이의 이름은 쫀떡입니다\n");
 
-	Sleep(500); // 2.5초 대기
+	Sleep(500); 
 	system("cls");
 
 	
@@ -83,7 +83,7 @@ int main() {
 			printf("돌발퀘스트 발생!\n");
 			printf("12 X 12 = ?\n");
 			printf("'?'에 들어올 수를 넣으세요\n");
-			scanf("%d", &answer);
+			scanf_s("%d", &answer);
 			if (answer == 144) {
 				printf("정답입니다! CP가 10포인트 증가합니다.\n");
 				CP += 10;
@@ -190,35 +190,51 @@ int main() {
 			printf("지후은(는) 기분좋게 식빵을 굽고있습니다.\n");
 			break;
 		case 3:
-			printf("%s은(는) 골골송을 부르며 수프를 만들러갑니다.\n");
+			printf("지후은(는) 골골송을 부르며 수프를 만들러갑니다.\n");
 			cat++;
 			break;
 		}
 
+		if (cat == HME_POS && cat == foot && turn != 1) {
+			printf("지후은(는) 자신의 집에서 편안함을 느낍니다.\n");
+			if (feel < 3)
+				feel++;
+		}
+
+		if (cat == BWL_PO) {
+			soup++;
+			dice = rand() % 3 + 1;
+			if (dice == 1)
+				printf("지후이(가) 감자 수프를 만들었습니다!\n");
+			else if (dice == 2)
+				printf("지후이(가) 양송이 수프를 만들었습니다!\n");
+			else
+				printf("지후이(가) 브로콜리 수프를 만들었습니다!\n");
+
+			printf("현재까지 만든 수프: %d\n", soup);
+		}
 		
-
-
-
-			if (cat == BWL_PO) {
-				soup++;
-				dice = rand() % 3 + 1;
-				switch (dice) {
-
-				case 1:
-					printf("쫀떡이 감자수프를 만들었습니다.\n");
-					break;
-				case 2:
-					printf("쫀떡이 양송이수프를 만들었습니다.\n");
-					break;
-				case 3:
-					printf("쫀떡이 브로콜리수프를 만들었습니다.\n");
-					break;
-				}
-				printf("현재까지 만든 수프: %d\n", soup);
+		if (cat == s) {
+			printf("지후은(는) 스크래처를 긁고 놀았습니다.\n");
+			if (feel == 3)
+				printf("기분이 조금 좋아졌습니다: %d->%d\n", feel, feel);
+			else {
+				feel++;
+				printf("기분이 조금 좋아졌습니다: %d->%d\n", feel - 1, feel);
 			}
-			if (cat == HME_POS) {
-
+		}
+		else if (cat == tower) {
+			printf("지후은(는) 캣타워를 뛰어다닙니다.\n");
+			if (feel > 1) {
+				printf("기분이 제법 좋아졌습니다: %d->3\n", feel);
+				feel = 3;
 			}
+			else {
+				feel += 2;
+				printf("기분이제법좋아졌습니다: %d->%d\n", feel - 2, feel);
+			}
+		}
+		Sleep(500);
 
 			for (int i = 0; i < ROOM_WIDTH; i++) {
 				printf("#");
@@ -235,6 +251,10 @@ int main() {
 					printf("#");
 				else if (i == BWL_PO)
 					printf("B");
+				else if (i == s)
+					printf("S");
+				else if (i == tower)
+					printf("T");
 				else
 					printf(" ");
 			}
@@ -308,7 +328,36 @@ int main() {
 				}
 				break;
 			}
+
+			int cp_increase;
+			if ((feel - 1) < 0) {
+				cp_increase = 0;
+			}
+			else {
+				cp_increase = (feel - 1) + relationship;
+			}
+			CP += cp_increase;
+			printf("\n\n지후의 기분(0~3): %d\n", feel);
+			printf("집사와의 친밀도(0~4): %d\n", relationship);
+			printf("지후의 기분과 친밀도에 따라서 CP가 %d포인트 증가합니다.\n", cp_increase);
+			printf("보유 CP: %d포인트\n\n", CP);
+
+
+
+
 			printf("현재 친밀도 : %d\n", relationship);
+
+
+
+
+
+
+
+
+
+
+
+
 			Sleep(2500);
 			system("cls");
 		}
